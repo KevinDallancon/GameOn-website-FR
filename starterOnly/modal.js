@@ -15,6 +15,7 @@ const formData = document.querySelectorAll(".formData");
 const closeModal = document.querySelector(".close");
 const balisePrenom = document.getElementById('first');
 const baliseNom = document.getElementById('last');
+const baliseMail = document.getElementById('email');
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -49,6 +50,17 @@ function verifierChamp(balise) {
   }
 }
 
+function verifierEmail(balise) {
+  const regexMail = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+  
+  if ( regexMail.test(balise.value)) {
+    console.log("Le champ est bien remplis");
+    balise.classList.remove('input-erreur');
+  } else {
+    balise.classList.add('input-erreur');
+    console.log("le champ est mal remplis");
+  }
+}
 
 // Ajout d'un ecouteur d'évenement pour l'evenement Submit
 form.addEventListener('submit', (event) => {
@@ -57,6 +69,7 @@ event.preventDefault();
 
 verifierChamp(balisePrenom);
 verifierChamp(baliseNom);
+verifierEmail(baliseMail);
 
 })
 
@@ -66,4 +79,8 @@ balisePrenom.addEventListener('change', () => {
 
 baliseNom.addEventListener('change', () => {
   verifierChamp(baliseNom);
+})
+
+baliseMail.addEventListener('change', () => {
+ verifierEmail(baliseMail);
 })
