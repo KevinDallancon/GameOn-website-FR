@@ -8,11 +8,13 @@ function editNav() {
 }
 
 // DOM Elements
+const form = document.querySelector('form[name="reserve"]');
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const closeModal = document.querySelector(".close");
-console.log(closeModal);
+const balisePrenom = document.getElementById('first');
+const baliseNom = document.getElementById('last');
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -25,4 +27,43 @@ function launchModal() {
 // code pour fermer la modale 
 closeModal.addEventListener('click', () => {
   modalbg.style.display = 'none';
+})
+
+
+function verifierChamp(balise) {
+  // Vérifie d'abord si le champ est vide
+  if (balise.value === "") {
+    console.log("Le champ ne doit pas être vide");
+    balise.classList.add('input-erreur');
+
+  } 
+  // Ensuite, vérifie si la longueur est inférieure à 2 caractères
+  else if (balise.value.length < 2) {
+    console.log("Le champ doit contenir au moins deux caractères pour être correct");
+    balise.classList.add('input-erreur');
+  } 
+  // Si aucune des conditions ci-dessus n'est vraie, alors le champ est correctement rempli
+  else {
+    console.log("Le champ est bien rempli");
+    balise.classList.remove('input-erreur');
+  }
+}
+
+
+// Ajout d'un ecouteur d'évenement pour l'evenement Submit
+form.addEventListener('submit', (event) => {
+// On empeche le comportement par default
+event.preventDefault();
+
+verifierChamp(balisePrenom);
+verifierChamp(baliseNom);
+
+})
+
+balisePrenom.addEventListener('change', () => {
+  verifierChamp(balisePrenom);
+})
+
+baliseNom.addEventListener('change', () => {
+  verifierChamp(baliseNom);
 })
