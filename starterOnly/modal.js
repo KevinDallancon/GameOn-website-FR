@@ -19,7 +19,7 @@ const baliseMail = document.getElementById('email');
 const baliseTournois = document.getElementById('quantity');
 const baliseRadio = document.querySelectorAll('input[type="radio"]');
 const baliseCg = document.getElementById('checkbox1');
-// Attribut Requiered , accepte que des nombres.
+
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
