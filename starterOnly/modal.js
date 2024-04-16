@@ -16,6 +16,10 @@ const closeModal = document.querySelector(".close");
 const balisePrenom = document.getElementById('first');
 const baliseNom = document.getElementById('last');
 const baliseMail = document.getElementById('email');
+const baliseTournois = document.getElementById('quantity');
+const baliseRadio = document.querySelectorAll('input[type="radio"]');
+const baliseCg = document.getElementById('checkbox1');
+// Attribut Requiered , accepte que des nombres.
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -35,30 +39,64 @@ function verifierChamp(balise) {
   // Vérifie d'abord si le champ est vide
   if (balise.value === "") {
     console.log("Le champ ne doit pas être vide");
-    balise.classList.add('input-erreur');
-
   } 
   // Ensuite, vérifie si la longueur est inférieure à 2 caractères
   else if (balise.value.length < 2) {
     console.log("Le champ doit contenir au moins deux caractères pour être correct");
-    balise.classList.add('input-erreur');
   } 
   // Si aucune des conditions ci-dessus n'est vraie, alors le champ est correctement rempli
   else {
     console.log("Le champ est bien rempli");
-    balise.classList.remove('input-erreur');
   }
 }
 
+
 function verifierEmail(balise) {
-  const regexMail = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
-  
+  const regexMail = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+
   if ( regexMail.test(balise.value)) {
     console.log("Le champ est bien remplis");
-    balise.classList.remove('input-erreur');
+    
   } else {
-    balise.classList.add('input-erreur');
     console.log("le champ est mal remplis");
+  }
+}
+
+function verifierChampNum(balise) {
+// Expression régulière qui accepte uniquement des chiffres
+const regex = /^\d+$/;
+
+if (regex.test(balise.value)) {
+    console.log("La valeur est numérique");
+} else {
+    console.log("La valeur n'est pas numérique");
+}
+}
+
+function verifierRadio(balise) {
+
+  let etatBtn = false;
+
+  for (let radio of balise) {
+    if (radio.checked) {
+      etatBtn = true;
+      break;
+    }
+  }
+
+  if (etatBtn) 
+    {console.log("Au moins une option est sélectionnée.");
+  } else {
+    console.log("Aucune option n'est sélectionnée.");
+  }
+}
+function verifierCg(balise) {
+
+  if (balise.checked)
+  {
+    console.log("Les conditions générales sont acceptées.");
+  } else {
+    console.log("Les conditions générales doivent être acceptées.");
   }
 }
 
@@ -70,17 +108,7 @@ event.preventDefault();
 verifierChamp(balisePrenom);
 verifierChamp(baliseNom);
 verifierEmail(baliseMail);
-
-})
-
-balisePrenom.addEventListener('change', () => {
-  verifierChamp(balisePrenom);
-})
-
-baliseNom.addEventListener('change', () => {
-  verifierChamp(baliseNom);
-})
-
-baliseMail.addEventListener('change', () => {
- verifierEmail(baliseMail);
+verifierChampNum(baliseTournois);
+verifierRadio(baliseRadio);
+verifierCg(baliseCg);
 })
