@@ -343,6 +343,10 @@ input[data-error]::after {
 .custom-select select {
   display: none;
 }
+
+.error-Msg {
+  font-size: 14px;
+}
 .select-selected {
   background-color: #fff;
 }
