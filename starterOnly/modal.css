@@ -345,7 +345,7 @@ input[data-error]::after {
 }
 
 .error-Msg {
-  font-size: 14px;
+  font-size: 10px;
 }
 .select-selected {
   background-color: #fff;

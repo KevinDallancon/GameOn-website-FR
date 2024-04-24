@@ -29,12 +29,11 @@ closeModal.addEventListener('click', () => {
   modalbg.style.display = 'none';
 })
 
-
-
+// Fonction pour valider les prénoms et les noms avec une expression régulière
 function verifierPrenomNom(balise) {
 
 // Définition du RegExp
-let nameRegExp = new RegExp('^[A-Za-z-]{2,30}$', 'g');
+let nameRegExp = new RegExp('^[A-Za-z-]{2,30}$');
 // Test du RegExp
 let testName = nameRegExp.test(balise.value);
 // Résultat conditionnel
@@ -43,12 +42,12 @@ if (testName) {
   balise.nextElementSibling.style.color = "green";
   return true;
 } else {
-  balise.nextElementSibling.innerText = "Champ vide ou incorrect.";
+  balise.nextElementSibling.innerText = "Veuillez entrer 2 caractères ou plus dans ce champ.";
   balise.nextElementSibling.style.color = "red";
   return false;
 };
 }
-
+// Fonction pour valider les adresses e-mail
 function verifierEmail(balise) {
   
   // Définition du regexMail
@@ -61,29 +60,28 @@ function verifierEmail(balise) {
     balise.nextElementSibling.style.color = "green";
     return true;
   } else {
-    balise.nextElementSibling.innerText = "Champ vide ou incorrect.";
+    balise.nextElementSibling.innerText = "Champ vide ou adresse mail incorrect.";
     balise.nextElementSibling.style.color = "red";
     return false;
   }
 }
-// function verifierBirthdate(balise) {
+// Fonction pour valider la date de naissance
+function verifierBirthdate(balise) {
+  // Expression régulière pour valider le format de la date (JJ/MM/AAAA)
+  const dateRegex = /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
 
-//   const formDataParent = balise.closest('.formData');
-//   const dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
-//   // Vérifie si une date a été entrée
-//   if (!balise.value) {
-//     formDataParent.dataset.error = "Veuillez entrer votre date de naissance.";
-//     formDataParent.dataset.errorVisible = "true";
-//   } else if (!dateFormat.test(balise.value)) {
-//     formDataParent.dataset.error = "Cette date de naissance semble incorrecte. Assurez-vous d'utiliser le format JJ/MM/AAAA";
-//     formDataParent.dataset.errorVisible = "true";
-//   } else {
-//     formDataParent.dataset.error = "";
-//     formDataParent.dataset.errorVisible = "false";
-//   }
 
-// }
-
+  if (!dateRegex.test(balise.value)) {
+    balise.nextElementSibling.innerText = "Vous devez entrer votre date de naissance.";
+    balise.nextElementSibling.style.color = "red";
+    return false;
+  } else {
+    balise.nextElementSibling.innerText = "Champ valide.";
+    balise.nextElementSibling.style.color = "green";
+    return true;
+  }
+}
+// Fonction pour valider des champs numériques
 function verifierChampNum(balise) {
 
   // Expression régulière qui accepte uniquement des chiffres
@@ -101,81 +99,127 @@ function verifierChampNum(balise) {
     return false;
   }
 }
-
+// Fonction pour valider la sélection d'une option radio
 function verifierRadio(balise) {
 
   let etatBtn = false;
-  let errorElement = document.getElementById('error-radio'); 
-  console.log(errorElement);
-
+  const errorElement = document.getElementById('error-radio');
+  
   for (let radio of balise) {
     if (radio.checked) {
-      console.log(radio);
       etatBtn = true;
       break;
     }
   };
 
   if (etatBtn) {
-    console.log(etatBtn);
     errorElement.innerText = "Champ valide.";
     errorElement.style.color = "green";
     return true;
   } else {
-    errorElement.innerText = "Champ vide ou incorrect.";
+    errorElement.innerText = "Vous devez choisir une option.";
     errorElement.style.color = "red";
     return false;
   }
 }
+
+// Fonction pour valider l'acceptation des conditions générales
 function verifierCg(balise) {
+
+const errorElementTwo = document.getElementById('error-radio2'); 
 
   if (balise.checked)
   {
-    balise.nextElementSibling.innerText = "Champ valide.";
-    balise.nextElementSibling.style.color = "green";
+    errorElementTwo.innerText = "Champ valide.";
+    errorElementTwo.style.color = "green";
     return true;
   } else {
-    balise.nextElementSibling.innerText = "Champ vide ou incorrect.";
-    balise.nextElementSibling.style.color = "red";
+    errorElementTwo.innerText = "Vous devez vérifier que vous acceptez les termes et conditions.";
+    errorElementTwo.style.color = "red";
     return false;
   }
 }
 
-// Ajout d'un ecouteur d'évenement pour l'evenement Submit
-form.addEventListener('submit', (event) => {
+document.addEventListener('DOMContentLoaded', function() {
 
-  function validate() {
-    try {
-      // On empeche le comportement par default
-      event.preventDefault();
+  const form = document.querySelector('form[name="reserve"]');
+  const balisePrenom = document.getElementById('first');
+  const baliseNom = document.getElementById('last');
+  const baliseMail = document.getElementById('email');
+  const balisebirthdate = document.getElementById('birthdate');
+  const baliseTournois = document.getElementById('quantity');
+  const baliseRadio = document.querySelectorAll('input[type="radio"]');
+  const baliseCg = document.getElementById('checkbox1');
+
+  // Attacher les écouteurs d'événements pour la validation en temps réel
+  balisePrenom.addEventListener('change', () => verifierPrenomNom(balisePrenom));
+  baliseNom.addEventListener('change', () => verifierPrenomNom(baliseNom));
+  baliseMail.addEventListener('change', () => verifierEmail(baliseMail));
+  balisebirthdate.addEventListener('change', () => verifierBirthdate(balisebirthdate));
+  baliseTournois.addEventListener('change', () => verifierChampNum(baliseTournois));
+ 
+  // Écouteur pour la soumission du formulaire
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    function ctrlForm() {
+      // Appel des fonctions de validation
+      const isValid = verifierPrenomNom(balisePrenom) &&
+                      verifierPrenomNom(baliseNom) &&
+                      verifierEmail(baliseMail) &&
+                      verifierBirthdate(balisebirthdate) &&
+                      verifierChampNum(baliseTournois) &&
+                      verifierRadio(baliseRadio) &&
+                      verifierCg(baliseCg);
   
-      const balisePrenom = document.getElementById('first');
-      verifierPrenomNom(balisePrenom);
-  
-      const baliseNom = document.getElementById('last');
-      verifierPrenomNom(baliseNom);
-  
-      const baliseMail = document.getElementById('email');
-      verifierEmail(baliseMail);
-  
-      // const balisebirthdate = document.getElementById('birthdate');
-      // verifierBirthdate(balisebirthdate);
-  
-      const baliseTournois = document.getElementById('quantity');
-      verifierChampNum(baliseTournois);
-  
-      const baliseRadio = document.querySelectorAll('input[type="radio"]');
-      verifierRadio(baliseRadio);
-  
-      const baliseCg = document.getElementById('checkbox1');
-      verifierCg(baliseCg);
-  
-  
-    } catch (error) {
-      console.log("Une erreur est survenue : " + error.message);
+      // Validation finale du formulaire
+      if (isValid) {
+        const baliseModalBody = document.querySelector(".modal-body")
+        baliseModalBody.innerText = "Merci ! Votre réservation a été reçue."
+        baliseModalBody.style.color = "green";
+
+      } else {
+        console.log("La validation n'est pas correcte");
+      }
     }
-  
-  }
-  validate()
+    ctrlForm();
+  });
 
-})
+});
+
+// // Ajout d'un ecouteur d'évenement pour l'evenement Submit
+// form.addEventListener('submit', (event) => {
+// // On empeche le comportement par default
+// event.preventDefault();
+
+// function ctrlForm() {
+
+//     // Test
+//   const balisePrenom = document.getElementById('first');
+//   const baliseNom = document.getElementById('last');
+//   const baliseMail = document.getElementById('email');
+//   const balisebirthdate = document.getElementById('birthdate');
+//   const baliseTournois = document.getElementById('quantity');
+//   const baliseRadio = document.querySelectorAll('input[type="radio"]');
+//   const baliseCg = document.getElementById('checkbox1');
+
+
+//   // Appel des fonctions de validation
+//   const isValid = verifierPrenomNom(balisePrenom) &&
+//                   verifierPrenomNom(baliseNom) &&
+//                   verifierEmail(baliseMail) &&
+//                   verifierBirthdate(balisebirthdate) &&
+//                   verifierChampNum(baliseTournois) &&
+//                   verifierRadio(baliseRadio) &&
+//                   verifierCg(baliseCg);
+
+//   // Validation finale du formulaire
+//   if (isValid) {
+//     console.log("La validation est réussie");
+//     // Code pour traiter les données du formulaire
+//   } else {
+//     console.log("La validation n'est pas correcte");
+//   }
+  
+// }
+// ctrlForm();
+// });
