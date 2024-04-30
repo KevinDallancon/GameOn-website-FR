@@ -30,14 +30,17 @@ img {
 }
 
 .topnav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   overflow: hidden;
   margin: 3.5%;
 }
 .header-logo {
-    float: left;
+  float: left;
 }
 .main-navbar {
-    float: right;
+  float: right;
 }
 .topnav a {
   float: left;
@@ -61,6 +64,7 @@ img {
   background-color: #ff0000;
   color: #ffffff;
   border-radius: 15px;
+  
 }
 
 .topnav .icon {
@@ -68,7 +72,9 @@ img {
 }
 
 @media screen and (max-width: 768px) {
-  .topnav a {display: none;}
+  .topnav a {
+    display: none;
+  }
   .topnav a.icon {
     float: right;
     display: block;
@@ -76,7 +82,9 @@ img {
 }
 
 @media screen and (max-width: 768px) {
-  .topnav.responsive {position: relative;}
+  .topnav.responsive {
+    position: relative;
+  }
   .topnav.responsive .icon {
     position: absolute;
     right: 0;
@@ -89,16 +97,38 @@ img {
   }
 }
 
-
-
- @media screen and (max-width: 540px) {
-  .topnav a {display: none;}
+@media screen and (max-width: 768px) {
+  .topnav a {
+    display: none;
+  }
   .topnav a.icon {
     float: right;
     display: block;
-    margin-top: -15px;
+    color: red;
+    font-size: 40px;
   }
-} 
+}
+
+@media screen and (max-width: 540px) {
+  .topnav.responsive {
+    flex-direction: column;
+    align-items: center;
+    
+  }
+  .topnav a {
+    display: none;
+  }
+  .topnav a.icon {
+    float: right;
+    display: block;
+    color: red;
+    font-size: 30px;
+  }
+  .header-logo img {
+    max-width: 200px;
+    
+  }
+}
 
 main {
   font-size: 130%;
@@ -110,8 +140,6 @@ main {
   margin: 1px 20px 15px;
   border-radius: 2rem;
   text-align: justify;
-
-
 }
 
 .modal-btn {
@@ -170,6 +198,7 @@ main {
 
 .content {
   margin: 5% auto;
+  margin-top: 80px;
   width: 100%;
   max-width: 500px;
   animation-name: modalopen;
@@ -182,9 +211,13 @@ main {
   padding-top: 10px;
 }
 
+
+
 .modal-body {
   padding: 15px 8%;
-  margin: 15px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 label {
@@ -227,9 +260,9 @@ input {
 }
 
 input[data-error]::after {
-    content: attr(data-error);
-    font-size: 0.4em;
-    color: red;
+  content: attr(data-error);
+  font-size: 0.4em;
+  color: red;
 }
 .checkbox-label,
 .checkbox2-label {
@@ -481,7 +514,31 @@ footer {
   padding-right: 2vw;
   margin: 0 20px;
 }
+.message-inscription {
+  color: white;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 300px;
+  width: 100%; /* ou toute autre largeur */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 
+.message-inscription button {
+  width: 140px;
+  border: none;
+  font-size: 1.3rem;
+  background-color: #fe142f;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+  border-radius: 7px;
+  cursor: pointer;
+  margin: 300px auto 10px;
+  padding: 12px 35px;
+}
 @media screen and (max-width: 800px) {
   .hero-section {
     display: block;
@@ -490,7 +547,7 @@ footer {
   .hero-content {
     background: #fff;
     color: #000;
-    padding: 20px;
+    padding: 0;
   }
   .hero-content::after {
     content: unset;
@@ -499,12 +556,12 @@ footer {
     display: none;
   }
   .hero-headline {
-    font-size: 4.5rem;
-    white-space: normal;
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-weight: 500;
   }
   .hero-text {
-    width: unset;
-    font-size: 1.5rem;
+    font-size: clamp(0.9rem, 4vw, 1.5rem); /* Taille de police adaptative */
+    width: 100%; /* Utilisation de toute la largeur disponible */
   }
   .hero-img img {
     border-radius: 10px;
@@ -521,6 +578,7 @@ footer {
   }
 }
 
+
 @keyframes modalopen {
   from {
     opacity: 0;
@@ -530,4 +588,3 @@ footer {
     opacity: 1;
   }
 }
-

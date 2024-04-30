@@ -12,8 +12,16 @@ const form = document.querySelector('form[name="reserve"]');
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
-const closeModal = document.querySelector(".close");
-
+const closeModalBtn = document.querySelector(".close");
+const messageInscription = document.querySelector(".message-inscription");
+const balisePrenom = document.getElementById('first');
+const baliseNom = document.getElementById('last');
+const baliseMail = document.getElementById('email');
+const balisebirthdate = document.getElementById('birthdate');
+const baliseTournois = document.getElementById('quantity');
+const baliseRadio = document.querySelectorAll('input[type="radio"]');
+const baliseCg = document.getElementById('checkbox1');
+const baliseBtnClose = document.getElementById('close-Form');
 
 
 // launch modal event
@@ -22,12 +30,24 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 // launch modal form
 function launchModal() {
   modalbg.style.display = "block";
+  form.style.display = "block";
+  messageInscription.style.display = 'none';
 }
 
-// code pour fermer la modale 
-closeModal.addEventListener('click', () => {
+function closeModal() {
   modalbg.style.display = 'none';
+  location.reload();
+}
+// code pour fermer la modale 
+closeModalBtn.addEventListener('click', () => {
+  closeModal()
 })
+//Code pour fermer la modale aprés validation
+baliseBtnClose.addEventListener('click', ()=> {
+  closeModal()
+  
+})
+
 
 // Fonction pour valider les prénoms et les noms avec une expression régulière
 function verifierPrenomNom(balise) {
@@ -140,86 +160,35 @@ const errorElementTwo = document.getElementById('error-radio2');
   }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+function ctrlForm() {
+  // Appel des fonctions de validation
+  const isValid = verifierPrenomNom(balisePrenom) &&
+                  verifierPrenomNom(baliseNom) &&
+                  verifierEmail(baliseMail) &&
+                  verifierBirthdate(balisebirthdate) &&
+                  verifierChampNum(baliseTournois) &&
+                  verifierRadio(baliseRadio) &&
+                  verifierCg(baliseCg);
 
-  const form = document.querySelector('form[name="reserve"]');
-  const balisePrenom = document.getElementById('first');
-  const baliseNom = document.getElementById('last');
-  const baliseMail = document.getElementById('email');
-  const balisebirthdate = document.getElementById('birthdate');
-  const baliseTournois = document.getElementById('quantity');
-  const baliseRadio = document.querySelectorAll('input[type="radio"]');
-  const baliseCg = document.getElementById('checkbox1');
+  // Validation finale du formulaire
+  if (isValid) {
+    form.style.display = 'none';
+    messageInscription.style.display = 'block';
+    return;
+  } 
+};
 
-  // Attacher les écouteurs d'événements pour la validation en temps réel
-  balisePrenom.addEventListener('change', () => verifierPrenomNom(balisePrenom));
-  baliseNom.addEventListener('change', () => verifierPrenomNom(baliseNom));
-  baliseMail.addEventListener('change', () => verifierEmail(baliseMail));
-  balisebirthdate.addEventListener('change', () => verifierBirthdate(balisebirthdate));
-  baliseTournois.addEventListener('change', () => verifierChampNum(baliseTournois));
- 
-  // Écouteur pour la soumission du formulaire
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    function ctrlForm() {
-      // Appel des fonctions de validation
-      const isValid = verifierPrenomNom(balisePrenom) &&
-                      verifierPrenomNom(baliseNom) &&
-                      verifierEmail(baliseMail) &&
-                      verifierBirthdate(balisebirthdate) &&
-                      verifierChampNum(baliseTournois) &&
-                      verifierRadio(baliseRadio) &&
-                      verifierCg(baliseCg);
-  
-      // Validation finale du formulaire
-      if (isValid) {
-        const baliseModalBody = document.querySelector(".modal-body")
-        baliseModalBody.innerText = "Merci ! Votre réservation a été reçue."
-        baliseModalBody.style.color = "green";
+// Attacher les écouteurs d'événements pour la validation en temps réel
+balisePrenom.addEventListener('change', () => verifierPrenomNom(balisePrenom));
+baliseNom.addEventListener('change', () => verifierPrenomNom(baliseNom));
+baliseMail.addEventListener('change', () => verifierEmail(baliseMail));
+balisebirthdate.addEventListener('change', () => verifierBirthdate(balisebirthdate));
+baliseTournois.addEventListener('change', () => verifierChampNum(baliseTournois));
 
-      } else {
-        console.log("La validation n'est pas correcte");
-      }
-    }
-    ctrlForm();
-  });
-
+// Écouteur pour la soumission du formulaire
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  ctrlForm(); 
 });
 
-// // Ajout d'un ecouteur d'évenement pour l'evenement Submit
-// form.addEventListener('submit', (event) => {
-// // On empeche le comportement par default
-// event.preventDefault();
 
-// function ctrlForm() {
-
-//     // Test
-//   const balisePrenom = document.getElementById('first');
-//   const baliseNom = document.getElementById('last');
-//   const baliseMail = document.getElementById('email');
-//   const balisebirthdate = document.getElementById('birthdate');
-//   const baliseTournois = document.getElementById('quantity');
-//   const baliseRadio = document.querySelectorAll('input[type="radio"]');
-//   const baliseCg = document.getElementById('checkbox1');
-
-
-//   // Appel des fonctions de validation
-//   const isValid = verifierPrenomNom(balisePrenom) &&
-//                   verifierPrenomNom(baliseNom) &&
-//                   verifierEmail(baliseMail) &&
-//                   verifierBirthdate(balisebirthdate) &&
-//                   verifierChampNum(baliseTournois) &&
-//                   verifierRadio(baliseRadio) &&
-//                   verifierCg(baliseCg);
-
-//   // Validation finale du formulaire
-//   if (isValid) {
-//     console.log("La validation est réussie");
-//     // Code pour traiter les données du formulaire
-//   } else {
-//     console.log("La validation n'est pas correcte");
-//   }
-  
-// }
-// ctrlForm();
-// });
