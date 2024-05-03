@@ -36,7 +36,6 @@ function launchModal() {
 
 function closeModal() {
   modalbg.style.display = 'none';
-  location.reload();
 }
 // code pour fermer la modale 
 closeModalBtn.addEventListener('click', () => {
@@ -45,7 +44,6 @@ closeModalBtn.addEventListener('click', () => {
 //Code pour fermer la modale aprés validation
 baliseBtnClose.addEventListener('click', ()=> {
   closeModal()
-  
 })
 
 
@@ -189,6 +187,7 @@ baliseTournois.addEventListener('change', () => verifierChampNum(baliseTournois)
 form.addEventListener('submit', (event) => {
   event.preventDefault();
   ctrlForm(); 
+  form.reset();
 });
 
 
